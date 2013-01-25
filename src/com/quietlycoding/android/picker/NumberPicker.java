@@ -22,6 +22,7 @@ import android.text.InputFilter;
 import android.text.InputType;
 import android.text.Spanned;
 import android.text.method.NumberKeyListener;
+import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -42,7 +43,7 @@ import android.widget.EditText;
  * @author Google
  */
 public class NumberPicker extends LinearLayout implements OnClickListener,
-        OnFocusChangeListener, OnLongClickListener {
+        OnFocusChangeListener, OnLongClickListener, TextWatcher {
 
     private static final String TAG = "NumberPicker";
     private static final int DEFAULT_MAX = 200;
@@ -130,6 +131,7 @@ public class NumberPicker extends LinearLayout implements OnClickListener,
         mDecrementButton.setNumberPicker(this);
 
         mText = (EditText) findViewById(R.id.timepicker_input);
+        mText.addTextChangedListener(this);
         mText.setOnFocusChangeListener(this);
         mText.setFilters(new InputFilter[] {inputFilter});
         mText.setRawInputType(InputType.TYPE_CLASS_NUMBER);
@@ -423,4 +425,23 @@ public class NumberPicker extends LinearLayout implements OnClickListener,
     public int getCurrent() {
         return mCurrent;
     }
+    
+    /**
+     * Textwatcher interface
+     * modify the edittext value in mCurrent
+     */
+     @Override
+     public void onTextChanged(CharSequence s, int start, int before, int count) {
+        mCurrent = Integer.parseInt(mText.getText().toString());
+     }
+
+     @Override
+     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        // TODO Auto-generated method stub
+     }
+
+     @Override
+     public void afterTextChanged(Editable s) {
+        // TODO Auto-generated method stub
+     }
 }
